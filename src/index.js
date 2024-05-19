@@ -31,7 +31,6 @@ class viceDB extends events {
         super();
         this.eventData = {};
         this.data = {};
-        this.on('aktif', async () => console.log('Database aktif!'));
         this.jsonFilePath = construct.filePath || "./vicedb/database.json";
 
         if(!fs.existsSync(this.jsonFilePath)){
@@ -68,14 +67,15 @@ class viceDB extends events {
           }
         }
 
-        on(event) {
-            if (event) {
-              if (event == "aktif") {
-                console.log('Database aktif!');
-              };
-            } else {
-              throw new Error("Event adı geçerli değil!");
-            }
-          }
-};
+        remove(key) {
+          if (this.data[key] == undefined) throw Error("Silinecek veri bulunamadı!");
+          if (!key) {
+            throw Error("Silinecek veri bulunamadı!");
+      } else {
+            delete this.data[key]
+            this.saveDataJSON();
+      }
+    }      
+  }
+
 module.exports = viceDB;
