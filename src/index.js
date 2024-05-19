@@ -36,29 +36,25 @@ class viceDB extends events {
         if(!fs.existsSync(this.jsonFilePath)){
             writeDirAndFile("{}", this.jsonFilePath);
         } else {
-            this.setData();
+          const checkedData = JSON.parse(fs.readFileSync(this.jsonFilePath));
+          if(typeof checkedData === "object") {
+            this.data = checkedData;
+          }
         }
         } 
 
-        setData() {
-            const checkedData = JSON.parse(fs.readFileSync(this.jsonFilePath));
-            if(typeof checkedData === "object") {
-              this.data = checkedData;
-            }
-        }
-        
-        saveDataJSON() {
+    saveData() {
             fs.writeFileSync(this.jsonFilePath, JSON.stringify(this.data, null, 2), "utf-8");
         }
 
-        set(key, value) {
+    set(key, value) {
             this.data[key] = value;
             if (!key) throw Error("Değiştirilecek değişken bulunamadı!");
             if (!value) throw Error("Değiştirilecek değer bulunamadı!");
-            this.saveDataJSON();
+            this.saveData();
           }
 
-        get(key) {
+    get(key) {
           if (this.data[key] == undefined) throw Error("Çekilecek veri bulunamadı!");
           if (!key) {
                 throw Error("Çekilecek veri bulunamadı!");
@@ -67,15 +63,20 @@ class viceDB extends events {
           }
         }
 
-        remove(key) {
+    remove(key) {
           if (this.data[key] == undefined) throw Error("Silinecek veri bulunamadı!");
           if (!key) {
             throw Error("Silinecek veri bulunamadı!");
       } else {
-            delete this.data[key]
-            this.saveDataJSON();
+            delete this.data[key];
+            this.saveData();
       }
-    }      
+    }  
+    
+    clear() {
+      this.data = {};
+      this.saveData();
+    }
   }
 
 module.exports = viceDB;
