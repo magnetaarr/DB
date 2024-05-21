@@ -51,9 +51,13 @@ class viceDB extends events {
     set(key, value) {
           // DataChange Event //
            if (this.dataLog == true) {
-            if (this.data[key] == undefined) { this.on("dataChange", console.log('\x1b[33m', `-- ViceDB | 🧬 "${key}", "${value}" değeriyle oluşturuldu!`)); };
-            if (this.data[key] !== value && this.data[key] !== undefined && value.lenth < 15 && this.data[key].length < 15) { this.on("dataChange", console.log(`\x1b[33m -- ViceDB | "${this.data[key]}" 🔧 "${value}" değişikliği "${key}" için gerçekleşti!`)); };
+            if (this.data[key] == undefined && value.length < 15) { this.on("dataChange", console.log('\x1b[33m', `-- ViceDB | 🧬 "${key}", "${value}" değeriyle oluşturuldu!`)); };
+            if (value.length > 15) { this.on("dataChange", console.log('\x1b[33m', `-- ViceDB | 🧬 "${key}" oluşturuldu!`)); };
+            if (this.data[key] !== value && this.data[key] !== undefined && value.length < 15 && this.data[key].length < 15) { this.on("dataChange", console.log(`\x1b[33m -- ViceDB | "${this.data[key]}" 🔧 "${value}" değişikliği "${key}" için gerçekleşti!`)); };
             if (this.data[key] == value) return;
+            if (this.data[key] !== undefined) {
+              if (value.length > 15 || this.data[key].length > 15) { this.on("dataChange", console.log(`\x1b[33m -- ViceDB | 🔧 "${key}" için bir değişiklik gerçekleşti!`)); };
+            }
            }
           // DataChange Event //
 
@@ -77,7 +81,8 @@ class viceDB extends events {
           if (!key) {
             throw Error("Silinecek veri bulunamadı!");
       } else {
-        this.on("dataChange", console.log('\x1b[33m', `-- ViceDB | 🗑️  "${key}" değişkeni silindi, "${this.data[key]}" değeriydi!`))
+        if (this.data[key].length < 15) { this.on("dataChange", console.log('\x1b[33m', `-- ViceDB | 🗑️  "${key}" değişkeni silindi, "${this.data[key]}" değeriydi!`)); }
+        else { this.on("dataChange", console.log('\x1b[33m', `-- ViceDB | 🗑️  "${key}" değişkeni silindi!`)); }
             delete this.data[key];
             this.saveData();
       }
