@@ -54,10 +54,10 @@ class viceDB extends events {
             if (this.data[key] == undefined && value.length < 15) { this.on("dataChange", console.log('\x1b[33m', `-- ViceDB | 🧬 "${key}", "${value}" değeriyle oluşturuldu!`)); };
             if (this.data[key] == undefined && value.length > 15) { this.on("dataChange", console.log('\x1b[33m', `-- ViceDB | 🧬 "${key}" oluşturuldu!`)); };
             if (this.data[key] !== value && this.data[key] !== undefined && value.length < 15 && this.data[key].length < 15) { this.on("dataChange", console.log(`\x1b[33m -- ViceDB | "${this.data[key]}" 🔧 "${value}" değişikliği "${key}" için gerçekleşti!`)); };
-            if (this.data[key] == value) return;
             if (this.data[key] !== undefined) {
               if (value.length > 15 || this.data[key].length > 15) { this.on("dataChange", console.log(`\x1b[33m -- ViceDB | 🔧 "${key}" için bir değişiklik gerçekleşti!`)); };
             }
+             if (this.data[key] == value) return;
            }
           // DataChange Event //
 
