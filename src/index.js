@@ -81,8 +81,10 @@ class viceDB extends events {
           if (!key) {
             throw Error("Silinecek veri bulunamadı!");
       } else {
-        if (this.data[key].length < 15) { this.on("dataChange", console.log('\x1b[33m', `-- ViceDB | 🗑️  "${key}" değişkeni silindi, "${this.data[key]}" değeriydi!`)); }
+        if (this.dataLog == true) {
+          if (this.data[key].length < 15) { this.on("dataChange", console.log('\x1b[33m', `-- ViceDB | 🗑️  "${key}" değişkeni silindi, "${this.data[key]}" değeriydi!`)); }
         else { this.on("dataChange", console.log('\x1b[33m', `-- ViceDB | 🗑️  "${key}" değişkeni silindi!`)); }
+        }
             delete this.data[key];
             this.saveData();
       }
